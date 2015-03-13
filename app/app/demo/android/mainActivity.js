@@ -21,6 +21,25 @@ var MainActivity = (function(_super) {
 			this.getFragmentManager().beginTransaction().add(FRAME_ID, new MainFragment()).commit();
 		}
 	};
+	MainActivity.prototype.onCreateOptionsMenu = function(menu) {
+		var sysverMenu = menu.add(0, 0, 0, 'System version');
+		sysverMenu.setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);
+		return true;
+	};
+	MainActivity.prototype.onOptionsItemSelected = function(menuItem) {
+		var id = menuItem.getItemId();
+		if (id == 0) {
+			new android.app.AlertDialog.Builder(this)
+				.setTitle('System version')
+				.setMessage('Release: ' + android.os.Build.VERSION.RELEASE + "\nAPI level: " + android.os.Build.VERSION.SDK_INT)
+				.setPositiveButton('OK', new android.content.DialogInterface.OnClickListener({
+					onClick: function(dialog, which) {}
+				}))
+				.show();
+			return true;
+		}
+		return false;
+	};
 	MainActivity.prototype.onActivityResult = function(requestCode, resultCode, data) {
         _super.prototype.onActivityResult.call(this, requestCode, resultCode, data);
     };
@@ -35,9 +54,6 @@ var MainActivity = (function(_super) {
 	};
 	MainActivity.prototype.onDestroy = function() {
 		_super.prototype.onDestroy.call(this);
-	};
-	MainActivity.prototype.onOptionsItemSelected = function(menuItem) {
-		return false;
 	};
     MainActivity.prototype.onBackPressed = function () {
         _super.prototype.onBackPressed.call(this);
