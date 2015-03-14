@@ -9,4 +9,15 @@ var RootViewController = (function(_super) {
 	return RootViewController;
 })(UINavigationController);
 
+/* TODO
+var _RootViewController = (function() {
+	function _RootViewController(viewController) {
+		var navigationController = new UINavigationController(UINavigationBar.class, UIToolbar.class);
+		navigationController.setViewControllers([new MainViewController()]);
+		return navigationController;
+	}
+	return _RootViewController;
+})();
+*/
+
 module.exports = RootViewController;

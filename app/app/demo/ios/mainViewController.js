@@ -1,5 +1,6 @@
 var __extends = this.__extends || require('../extends');
 var DetailViewController = require('./detailViewController');
+var util = require('./util');
 
 // main view controller
 var MainViewController = (function(_super) {
@@ -9,10 +10,12 @@ var MainViewController = (function(_super) {
 	}
 	MainViewController.prototype.viewDidLoad = function() {
 		_super.prototype.viewDidLoad.call(this);
+		this._holders = {};
+		this._data = require('../dataSet').countries;
+		this.title = 'Main Page';
 		var sysverBtn = new UIBarButtonItem(UIBarButtonSystemItem.UIBarButtonSystemItemAction, this, 'onSysVerBtnClick');
 		this.navigationItem.rightBarButtonItems = [sysverBtn];
-		this.title = 'Main Page';
-		this.data = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		
 	};
 	MainViewController.prototype.onSysVerBtnClick = function(sender) {
 		console.log('onSysVerBtnClick()');
@@ -24,19 +27,26 @@ var MainViewController = (function(_super) {
 		alert.show();
 	};
 	MainViewController.prototype.tableViewCellForRowAtIndexPath = function(tableView, indexPath) {
-		var reuseId = 'cell';
+		var reuseId = 'main_cell'; // must be same value as in xib file
 		var cell = tableView.dequeueReusableCellWithIdentifier(reuseId);
 		if (!cell) {
-			cell = new UITableViewCell(UITableViewCellStyle.UITableViewCellStyleDefault, reuseId);
+			cell = NSBundle.mainBundle().loadNibNamedOwnerOptions('MainTableViewCell', this, null)[0];
+			// anyone know better way than this? such as access element by id
+			this._holders[util.getHashCode(cell)] = {
+				title: cell.contentView.subviews[0],
+				note: cell.contentView.subviews[1]
+			};
 		}
-		cell.textLabel.text = this.data[indexPath.row];
+		var holder = this._holders[util.getHashCode(cell)];
+		holder.title.text = this._data[indexPath.row];
+		holder.note.text = 'Row ' + indexPath.row;
 		return cell;
 	};
 	MainViewController.prototype.tableViewNumberOfRowsInSection = function(tableView, section) {
-		return this.data.length;
+		return this._data.length;
 	};
 	MainViewController.prototype.tableViewDidSelectRowAtIndexPath = function(tableView, indexPath) {
-		var value = this.data[indexPath.row];
+		var value = this._data[indexPath.row];
 		var viewController = new DetailViewController();
 		viewController.value = value;
 		this.navigationController.pushViewControllerAnimated(viewController, true);
