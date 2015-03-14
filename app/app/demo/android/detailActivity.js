@@ -18,17 +18,10 @@ var DetailActivity = (function(_super) {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		var value = this.getIntent().getStringExtra(DetailActivity.ITEM_ID);
-		
-		var LayoutParams = android.view.ViewGroup.LayoutParams;
-		var layout = new android.widget.RelativeLayout(this);
-		layout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		layout.setGravity(android.view.Gravity.CENTER);
-		var label = new android.widget.TextView(this);
-		label.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		label.setGravity(android.view.Gravity.CENTER);
+
+		this.setContentView(util.getResource('R.layout.activity_detail'));
+		var label = this.findViewById(util.getResource('R.id.detail_textview'));
 		label.setText(value);
-		layout.addView(label);
-		this.setContentView(layout);
 	};
 	DetailActivity.prototype.onMenuItemSelected = function(featureId, item) {
 		if (item.getItemId() == android.R.id.home) {

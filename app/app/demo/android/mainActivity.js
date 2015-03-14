@@ -12,23 +12,18 @@ var MainActivity = (function(_super) {
 		_super.prototype.onCreate.call(this, savedInstanceState);
 		this.setTheme(util.getResource('R.style.AppTheme'));
 		this.setTitle('Main Activity');
-		var FRAME_ID = 1000;
-		var layout = new android.widget.FrameLayout(this);
-		layout.setId(FRAME_ID);
-		var LayoutParams = android.view.ViewGroup.LayoutParams;
-		this.setContentView(layout, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		this.setContentView(util.getResource('R.layout.activity_main'));
 		if (!savedInstanceState) {
-			this.getFragmentManager().beginTransaction().add(FRAME_ID, new MainFragment()).commit();
+			this.getFragmentManager().beginTransaction().add(util.getResource('R.id.main_frame'), new MainFragment()).commit();
 		}
 	};
 	MainActivity.prototype.onCreateOptionsMenu = function(menu) {
-		var sysverMenu = menu.add(0, 0, 0, 'System version');
-		sysverMenu.setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_NEVER);
+		this.getMenuInflater().inflate(util.getResource('R.menu.main'), menu);
 		return true;
 	};
 	MainActivity.prototype.onOptionsItemSelected = function(menuItem) {
 		var id = menuItem.getItemId();
-		if (id == 0) {
+		if (id == util.getResource('R.id.menu_sysver')) {
 			new android.app.AlertDialog.Builder(this)
 				.setTitle('System version')
 				.setMessage('Release: ' + android.os.Build.VERSION.RELEASE + "\nAPI level: " + android.os.Build.VERSION.SDK_INT)

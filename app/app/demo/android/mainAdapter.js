@@ -8,12 +8,9 @@ var ItemTemplate = (function() {
 	}
 	ItemTemplate.prototype.getView = function(value, convertView, parent) {
 		if (!convertView) {
-			var LayoutParams = android.view.ViewGroup.LayoutParams;
-			convertView = new android.widget.RelativeLayout(this._context);
-			convertView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, util.toDip(48, this._context)));
-			var label = new android.widget.TextView(this._context);
-			label.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			convertView.addView(label);
+			var inflater = this._context.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(util.getResource('R.layout.item_main'), parent, false);
+			var label = convertView.findViewById(util.getResource('R.id.item_textview'));
 			this._holders[convertView.hashCode()] = { label: label };
 		}
 		var holder = this._holders[convertView.hashCode()];
@@ -28,7 +25,7 @@ var MainAdapter = (function(_super) {
 	function MainAdapter(context) {
 		_super.call(this);
 		this._context = context;
-		this._values = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		this._values = require('../dataSet').countries;
 		this._template = new ItemTemplate(this._context);
 		return global.__native(this); // required, so that other methods below can access instance properties (_context, _values, etc.)
 	}

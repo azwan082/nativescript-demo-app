@@ -8,9 +8,6 @@ var MainFragment = (function(_super) {
 	function MainFragment() {
 		_super.apply(this, arguments);
 	}
-	// MainFragment.prototype.onCreated = function() {
-	// 	_super.prototype.onCreated.call(this);
-	// };
 	MainFragment.prototype.onCreateView = function(inflater, container, savedInstanceState) {
 		var activity = this.getActivity();
 		var listView = new android.widget.ListView(activity);
@@ -20,8 +17,8 @@ var MainFragment = (function(_super) {
 			onItemClick: function(parent, view, position, id) {
 				var value = adapter.getItem(position);
 				var intent = new android.content.Intent(activity, com.tns.NativeScriptActivity.class);
-				// intent.setAction(android.content.Intent.ACTION_DEFAULT);
-				intent.Action = android.content.Intent.ACTION_DEFAULT;
+				intent.setAction(android.content.Intent.ACTION_DEFAULT);
+				// intent.Action = android.content.Intent.ACTION_DEFAULT;
 				intent.putExtra('DetailActivity', 1);
 				intent.putExtra(DetailActivity.ITEM_ID, value);
 				activity.startActivity(intent);

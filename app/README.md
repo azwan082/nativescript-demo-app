@@ -1,4 +1,4 @@
-template-hello-world
+net.noodlecode.demo
 ====================
 
-Hello World Project Template for NativeScript
+NativeScript demo app, instead of using crossplatform nativescript module (NSM), this one demonstrate the platform-specific codes to build an app

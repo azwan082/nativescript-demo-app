@@ -5,6 +5,16 @@ var util = require('./util');
 var Application = (function() {
 	function Application(nativeApp) {
 		this.app = nativeApp;
+		try {
+			var config = android.view.ViewConfiguration.get(nativeApp);
+			var menuKeyField = android.view.ViewConfiguration.class.getDeclaredField('sHasPermanentMenuKey');
+			if (menuKeyField) {
+				menuKeyField.setAccessible(true);
+				menuKeyField.setBoolean(config, false);
+			}
+		} catch (ex) {
+			util.log('ERROR:' + ex.message);
+		}
 	}
 	Application.prototype.init = function() {
 		this.app.registerActivityLifecycleCallbacks(new android.app.Application.ActivityLifecycleCallbacks({
